@@ -1,5 +1,6 @@
 const path = require('path');
 const CopyPlugin = require("copy-webpack-plugin");
+const { clear } = require('console');
 
 module.exports = {
     entry: './src/main.js',
