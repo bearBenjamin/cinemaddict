@@ -1,3 +1,4 @@
+import './mock/tasksModel.js';
 import ProfileUserView from './view/header-profile-user-view.js';
 import StatisticsView from './view/statistics-view.js';
 import NavigationView from './view/navigation-view.js';
