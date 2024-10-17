@@ -8,7 +8,7 @@ import FilmShowMoreView from '../view/film-show-more-view.js';
 import FilmListExtraView from '../view/film-list-extra-view.js';
 import FilmPopupView from '../view/film-popup-view.js';
 
-const FILM_COUNT = 5;
+//const FILM_COUNT = 5;
 const FILM_EXTRA_COUNT = 2;
 
 export default class FilmCardPresenter {
@@ -22,15 +22,18 @@ export default class FilmCardPresenter {
   filmListExtraTopConteiner = new FilmListConteinerView();
   filmListExtraMessageConteiner = new FilmListConteinerView();
 
-  init = (container) => {
+  init = (container, taskModel) => {
     this.container = container;
+    this.taskModel = taskModel;
+    this.films = [...this.taskModel.getFilms()];
+    this.comments = [...this.taskModel.getComments()];
 
     render(this.film, this.container);
     render(this.filmList, this.film.getElement());
     render(this.filmListConteiner, this.filmList.getElement());
 
-    for (let i = 0; i < FILM_COUNT; i += 1) {
-      render(new FilmCardDescriptionView(), this.filmListConteiner.getElement());
+    for (let i = 0; i < this.films.length; i += 1) {
+      render(new FilmCardDescriptionView(this.films[i]), this.filmListConteiner.getElement());
     }
 
     render(this.filmShowMore, this.filmList.getElement());
@@ -39,16 +42,16 @@ export default class FilmCardPresenter {
     render(this.filmListExtraTopConteiner, this.filmListExtraTop.getElement());
 
     for (let i = 0; i < FILM_EXTRA_COUNT; i += 1) {
-      render(new FilmCardDescriptionView(), this.filmListExtraTopConteiner.getElement());
+      render(new FilmCardDescriptionView(this.films[i]), this.filmListExtraTopConteiner.getElement());
     }
 
     render(this.filmListExtraMessage, this.film.getElement());
     render(this.filmListExtraMessageConteiner, this.filmListExtraMessage.getElement());
 
     for (let i = 0; i < FILM_EXTRA_COUNT; i += 1) {
-      render(new FilmCardDescriptionView(), this.filmListExtraMessageConteiner.getElement());
+      render(new FilmCardDescriptionView(this.films[i]), this.filmListExtraMessageConteiner.getElement());
     }
 
-    render(new FilmPopupView(), this.container.parentElement);
+    render(new FilmPopupView(this.films[0], this.comments[0]), this.container.parentElement);
   };
 }

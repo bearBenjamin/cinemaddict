@@ -1,12 +1,16 @@
 import { generateTask, generateComment } from './data.js';
 
-const films = Array.from({length: 5}, generateTask);
+export default class TaskModel {
+  films = Array.from({length: 5}, generateTask);
 
-const comments = films.map((film) => {
-  const lengthComments = film.comments.length;
-  return Array.from({length: lengthComments}, () => generateComment());
-});
+  getFilms = () => this.films;
 
+  comments = this.films.map((film) => {
+    const lengthComments = film.comments.length;
+    const result = Array.from({length: lengthComments}, () => generateComment());
+    return result;
+  });
 
-console.log('films: ', films);
-console.log('comments: ', comments);
+  getComments = () => this.comments;
+}
+

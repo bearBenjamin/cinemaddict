@@ -1,4 +1,4 @@
-import { getRandomInteger, getRandomItemArray, getRandomNumFloat } from '../view/util.js';
+import { getRandomInteger, getRandomItemArray, getRandomNumFloat } from '../util.js';
 
 const ID = ['0', '1', '2', '3', '4', '5'];
 
@@ -20,13 +20,13 @@ const ALTERNATIVE_TITLE = [
   'Возвращение'
 ];
 
-const POSTERS = ['images/posters/made-for-each-other.png', 'images/posters/popeye-meets-sinbad.png', 'sagebrush-trail'];
+const POSTERS = ['images/posters/made-for-each-other.png', 'images/posters/popeye-meets-sinbad.png', 'images/posters/sagebrush-trail.jpg', 'images/posters/santa-claus-conquers-the-martians.jpg', 'images/posters/the-dance-of-life.jpg', 'images/posters/the-great-flamarion.jpg', 'images/posters/the-man-with-the-golden-arm.jpg' ];
 const AGE_RATING = ['0', '12+', '16+', '18+'];
 const DIRECTOR = ['Tom Ford', 'Федор Бондарчук'];
 const WRITERS = ['Takehi Kitano', 'Сергей Минаев'];
 const ACTORS = ['Morgan Freeman', 'Сергей Бурунов'];
 const RELEASE_COUNTRY = ['Finland', 'Use', 'Russia', 'China', 'Swedia', 'Spain'];
-const GENRE = ['Comedy', 'Drama', 'Action movie', 'Horor', 'Thriller'];
+const GENRE = [['Comedy'], ['Drama', 'Thriller'], ['Action movie'], ['Horor', 'Comedy', 'Action movie']];
 
 const DESCRIPTION = [
   `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
@@ -57,7 +57,7 @@ const getIdComments = () => {
 export const generateTask = () => ({
   id: getRandomItemArray(ID),
   comments: getIdComments(),
-  filminfo: {
+  filmInfo: {
     title: getRandomItemArray(TITLE),
     alternativetitle: getRandomItemArray(ALTERNATIVE_TITLE),
     totalRating: getRandomNumFloat(1, 10),
@@ -65,18 +65,18 @@ export const generateTask = () => ({
     ageRating: getRandomItemArray(AGE_RATING),
     director: getRandomItemArray(DIRECTOR),
     writers: [
-      ...WRITERS
+      WRITERS.join(', ')
     ],
     actors: [
-      ...ACTORS
+      ACTORS.join(', ')
     ],
     release: {
-      date: '2019-05-11T00:00:00.000Z', //null
+      date: '2019-05-11T00:00:00.000Z',
       releaseCountry: getRandomItemArray(RELEASE_COUNTRY)
     },
     runtime: getRandomInteger(0, 300),
     genre: [
-      getRandomItemArray(GENRE)
+      ...getRandomItemArray(GENRE)
     ],
     description: getRandomItemArray(DESCRIPTION).replace(/(\r\n|\n|\r)/gm, '')
   },
@@ -87,8 +87,6 @@ export const generateTask = () => ({
     favorite: false
   }
 });
-
-console.log(generateTask());
 
 const AUTHOR = ['Ilya O\'Reily', 'Andrye Petrov', 'Irina Solovei', 'Angry Berd', 'Pruff', 'Zlo', 'Dobro', '555', 'Krasiva'];
 
@@ -102,10 +100,10 @@ const COMMENT = [
   'Петров опять сыграл самого себя. Как же это все задолбало!'
 ];
 
-const EMOTION = ['smile', 'slepping', 'puke', 'angry'];
+const EMOTION = ['smile', 'sleeping', 'puke', 'angry'];
 
 export const generateComment = () => ({
-  /*id: getRandomInteger(1, 100),*/
+  id: getRandomInteger(1, 100),
   author: getRandomItemArray(AUTHOR),
   comment: getRandomItemArray(COMMENT),
   date: '2019-05-11T16:12:32.554Z', //null
