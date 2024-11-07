@@ -15,6 +15,7 @@ const siteFooterStatistics = siteFooterElement.querySelector('.footer__statistic
 
 const taskModel = new TaskModel();
 
+
 render (new ProfileUserView(), siteHeaderElement);
 render (new StatisticsView(), siteFooterStatistics);
 render (new NavigationView(), siteMainElement, RenderPosition.AFTERBEGIN);

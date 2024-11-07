@@ -1,7 +1,6 @@
 import FilmsView from '../view/films-view.js';
 import FilmListView from '../view/film-list-view.js';
 import FilmCardDescriptionView from '../view/film-card-descriptions -view.js';
-//import { container } from 'webpack';
 import { render } from '../render.js';
 import FilmListConteinerView from '../view/film-lists-conteiner-view.js';
 import FilmShowMoreView from '../view/film-show-more-view.js';
@@ -12,46 +11,51 @@ import FilmPopupView from '../view/film-popup-view.js';
 const FILM_EXTRA_COUNT = 2;
 
 export default class FilmCardPresenter {
-  film = new FilmsView();
-  filmList = new FilmListView();
-  filmListConteiner = new FilmListConteinerView();
-  filmCardDescriptions = new FilmCardDescriptionView();
-  filmShowMore = new FilmShowMoreView();
-  filmListExtraTop = new FilmListExtraView();
-  filmListExtraMessage = new FilmListExtraView();
-  filmListExtraTopConteiner = new FilmListConteinerView();
-  filmListExtraMessageConteiner = new FilmListConteinerView();
+  #container = null;
+  #taskModel = null;
+  #films = null;
+  #comments = null;
+
+  #film = new FilmsView();
+  #filmList = new FilmListView();
+  #filmListConteiner = new FilmListConteinerView();
+  //filmCardDescriptions = new FilmCardDescriptionView();
+  #filmShowMore = new FilmShowMoreView();
+  #filmListExtraTop = new FilmListExtraView();
+  #filmListExtraMessage = new FilmListExtraView();
+  #filmListExtraTopConteiner = new FilmListConteinerView();
+  #filmListExtraMessageConteiner = new FilmListConteinerView();
 
   init = (container, taskModel) => {
-    this.container = container;
-    this.taskModel = taskModel;
-    this.films = [...this.taskModel.getFilms()];
-    this.comments = [...this.taskModel.getComments()];
+    this.#container = container;
+    this.#taskModel = taskModel;
+    this.#films = [...this.#taskModel.films];
+    this.#comments = [...this.#taskModel.comments];
 
-    render(this.film, this.container);
-    render(this.filmList, this.film.getElement());
-    render(this.filmListConteiner, this.filmList.getElement());
+    render(this.#film, this.#container);
+    render(this.#filmList, this.#film.element);
+    render(this.#filmListConteiner, this.#filmList.element);
 
-    for (let i = 0; i < this.films.length; i += 1) {
-      render(new FilmCardDescriptionView(this.films[i]), this.filmListConteiner.getElement());
+    for (let i = 0; i < this.#films.length; i += 1) {
+      render(new FilmCardDescriptionView(this.#films[i]), this.#filmListConteiner.element);
     }
 
-    render(this.filmShowMore, this.filmList.getElement());
+    render(this.#filmShowMore, this.#filmList.element);
 
-    render(this.filmListExtraTop, this.film.getElement());
-    render(this.filmListExtraTopConteiner, this.filmListExtraTop.getElement());
+    render(this.#filmListExtraTop, this.#film.element);
+    render(this.#filmListExtraTopConteiner, this.#filmListExtraTop.element);
 
     for (let i = 0; i < FILM_EXTRA_COUNT; i += 1) {
-      render(new FilmCardDescriptionView(this.films[i]), this.filmListExtraTopConteiner.getElement());
+      render(new FilmCardDescriptionView(this.#films[i]), this.#filmListExtraTopConteiner.element);
     }
 
-    render(this.filmListExtraMessage, this.film.getElement());
-    render(this.filmListExtraMessageConteiner, this.filmListExtraMessage.getElement());
+    render(this.#filmListExtraMessage, this.#film.element);
+    render(this.#filmListExtraMessageConteiner, this.#filmListExtraMessage.element);
 
     for (let i = 0; i < FILM_EXTRA_COUNT; i += 1) {
-      render(new FilmCardDescriptionView(this.films[i]), this.filmListExtraMessageConteiner.getElement());
+      render(new FilmCardDescriptionView(this.#films[i]), this.#filmListExtraMessageConteiner.element);
     }
 
-    render(new FilmPopupView(this.films[0], this.comments[0]), this.container.parentElement);
+    render(new FilmPopupView(this.#films[0], this.#comments[0]), this.#container.parentElement);
   };
 }

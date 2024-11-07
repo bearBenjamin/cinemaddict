@@ -5,18 +5,20 @@ const createFilmListExtraTemplete = () => ['<section class="films-list films-lis
   '</section>'].join('\n');
 
 export default class FilmListExtraView {
-  getTemplate () {
+  #element = null;
+
+  get template() {
     return createFilmListExtraTemplete();
   }
 
-  getElement () {
-    if (!this.element) {
-      this.element = createElement(this.getTemplate());
+  get element() {
+    if (!this.#element) {
+      this.#element = createElement(this.template);
     }
-    return this.element;
+    return this.#element;
   }
 
   removeElement () {
-    this.element = null;
+    this.#element = null;
   }
 }
