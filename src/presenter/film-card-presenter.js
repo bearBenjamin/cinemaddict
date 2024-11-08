@@ -15,6 +15,7 @@ export default class FilmCardPresenter {
   #taskModel = null;
   #films = null;
   #comments = null;
+  #popupFilm = null;
 
   #film = new FilmsView();
   #filmList = new FilmListView();
@@ -37,7 +38,7 @@ export default class FilmCardPresenter {
     render(this.#filmListConteiner, this.#filmList.element);
 
     for (let i = 0; i < this.#films.length; i += 1) {
-      render(new FilmCardDescriptionView(this.#films[i]), this.#filmListConteiner.element);
+      this.#renderCardFilm(this.#films[i], this.#comments[i]);
     }
 
     render(this.#filmShowMore, this.#filmList.element);
@@ -55,7 +56,48 @@ export default class FilmCardPresenter {
     for (let i = 0; i < FILM_EXTRA_COUNT; i += 1) {
       render(new FilmCardDescriptionView(this.#films[i]), this.#filmListExtraMessageConteiner.element);
     }
+  };
 
-    render(new FilmPopupView(this.#films[0], this.#comments[0]), this.#container.parentElement);
+  #renderCardFilm (film, comment) {
+    const cardFilm = new FilmCardDescriptionView(film);
+    const cardFilmElement = cardFilm.element.querySelector('a');
+
+    cardFilmElement.addEventListener('click', () => {
+      this.#addPopupFilm(film, comment);
+      document.addEventListener('keydown',this.#onEscKeydown);
+    });
+
+    render(cardFilm, this.#filmListConteiner.element);
+  }
+
+  #addPopupFilm (film, comment) {
+    this.#renderPopupCardFilm(film, comment);
+    document.body.classList.add('hide-overflow');
+  }
+
+  #renderPopupCardFilm (film, comment) {
+    this.#popupFilm = new FilmPopupView(film, comment);
+
+    this.#container.appendChild(this.#popupFilm.element);
+
+    const closePopupFilmElement = this.#popupFilm.element.querySelector('.film-details__close-btn');
+
+    closePopupFilmElement.addEventListener('click', () => {
+      this.#replacePopupFilm();
+      document.removeEventListener('keydown', this.#onEscKeydown);
+    });
+  }
+
+  #replacePopupFilm =() => {
+    this.#container.removeChild(this.#popupFilm.element);
+    this.#popupFilm = null;
+    document.body.classList.remove('hide-overflow');
+  };
+
+  #onEscKeydown = (evt) => {
+    if  (evt.key === 'Escape' || evt.key === 'Esc') {
+      //evt.preventDefault();
+      this.#replacePopupFilm();
+    }
   };
 }
