@@ -8,7 +8,7 @@ const createFilmCardDescriptionTemplete = ({ comments, filmInfo }) =>{
   const truncatedDescription = textTruncate(description);
   const numberComment = comments.length;
 
-  return [`<article class="film-card">
+  return `<article class="film-card">
     <a class="film-card__link">
     <h3 class="film-card__title">${title}</h3>
     <p class="film-card__rating">${totalRating}</p>
@@ -26,7 +26,7 @@ const createFilmCardDescriptionTemplete = ({ comments, filmInfo }) =>{
     <button class="film-card__controls-item film-card__controls-item--mark-as-watched film-card__controls-item--active" type="button">Mark as watched</button>
     <button class="film-card__controls-item film-card__controls-item--favorite film-card__controls-item--active" type="button">Mark as favorite</button>
     </div>
-    </article>`].join('\n');
+    </article>`;
 };
 
 export default class FilmCardDescriptionView {

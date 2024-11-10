@@ -1,7 +1,7 @@
 import { generateTask, generateComment } from './data.js';
 
 export default class TaskModel {
-  #films = Array.from({length: 5}, generateTask);
+  #films = Array.from({length: 6}, generateTask);
 
   get films() {
     return this.#films;

@@ -14,12 +14,11 @@ const siteFooterElement = document.querySelector('.footer');
 const siteFooterStatistics = siteFooterElement.querySelector('.footer__statistics');
 
 const taskModel = new TaskModel();
-
+const filmCardPresenter = new FilmCardPresenter(siteMainElement, taskModel);
 
 render (new ProfileUserView(), siteHeaderElement);
 render (new StatisticsView(), siteFooterStatistics);
 render (new NavigationView(), siteMainElement, RenderPosition.AFTERBEGIN);
 render(new FilterListView, siteMainElement);
 
-const filmCardPresenter = new FilmCardPresenter();
-filmCardPresenter.init(siteMainElement, taskModel);
+filmCardPresenter.init();

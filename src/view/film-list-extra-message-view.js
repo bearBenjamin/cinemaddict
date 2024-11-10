@@ -1,10 +1,10 @@
 import { createElement } from '../render.js';
 
-const createFilmListExtraTemplete = () => ['<section class="films-list films-list--extra">',
-  '<h2 class="films-list__title">Most commented</h2>',
-  '</section>'].join('\n');
+const createFilmListExtraTemplete = () => `<section class="films-list films-list--extra">
+  <h2 class="films-list__title">Most commented</h2>
+  </section>`;
 
-export default class FilmListExtraView {
+export default class FilmListExtraMessageView {
   #element = null;
 
   get template() {
