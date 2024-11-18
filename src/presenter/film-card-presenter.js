@@ -121,11 +121,11 @@ export default class FilmCardPresenter {
     });
   }
 
-  #replacePopupFilm =() => {
+  #replacePopupFilm() {
     this.#container.removeChild(this.#popupFilm.element);
     this.#popupFilm = null;
     document.body.classList.remove('hide-overflow');
-  };
+  }
 
   #onEscKeydown = (evt) => {
     if  (evt.key === 'Escape' || evt.key === 'Esc') {
