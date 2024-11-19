@@ -1,8 +1,9 @@
-import { createElement } from '../render.js';
+import AbstractView from '../framework/view/abstract-view.js';
 import { convertRunTime, dateComment, fullDateRealeaseFilm } from '../util.js';
 
 const createFilmPopupTemplete = ({ filmInfo }, comments) => {
-  const { title, poster, ageRating, alternativetitle, totalRating, director, writers,
+  const {
+    title, poster, ageRating, alternativetitle, totalRating, director, writers,
     actors, release, runtime, genre, description
   } = filmInfo;
   const dateReales = fullDateRealeaseFilm(release.date);
@@ -25,7 +26,7 @@ const createFilmPopupTemplete = ({ filmInfo }, comments) => {
     const dateUserCom = dateComment(date);
     const itemList = document.createElement('template');
 
-    itemList.innerHTML = [`<li class="film-details__comment">
+    itemList.innerHTML = `<li class="film-details__comment">
     <span class="film-details__comment-emoji">
     <img src="../images/emoji/${emotion}.png" width="55" height="55" alt="emoji-smile">
     </span>
@@ -37,12 +38,12 @@ const createFilmPopupTemplete = ({ filmInfo }, comments) => {
     <button class="film-details__comment-delete">Delete</button>
     </p>
     </div>
-    </li>`].join('\n');
+    </li>`;
 
     list.append(itemList.content);
   });
 
-  return [`<section class="film-details">
+  return `<section class="film-details">
     <form class="film-details__inner" action="" method="get">
     <div class="film-details__top-container">
     <div class="film-details__close">
@@ -147,31 +148,20 @@ const createFilmPopupTemplete = ({ filmInfo }, comments) => {
     </section>
     </div>
     </form>
-    </section>`].join('\n');
+    </section>`;
 };
 
-export default class FilmPopupView {
-  #element = null;
+export default class FilmPopupView extends AbstractView {
   #film = null;
   #comments = null;
 
   constructor(film, comments) {
+    super();
     this.#film = film;
     this.#comments = comments;
   }
 
   get template() {
     return createFilmPopupTemplete(this.#film, this.#comments);
-  }
-
-  get element() {
-    if (!this.#element) {
-      this.#element = createElement(this.template);
-    }
-    return this.#element;
-  }
-
-  removeElement() {
-    this.#element = null;
   }
 }

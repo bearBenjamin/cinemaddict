@@ -1,4 +1,4 @@
-import { createElement } from '../render.js';
+import AbstractView from '../framework/view/abstract-view.js';
 import { convertRunTime, dateYearRealeaseFilm, textTruncate } from '../util.js';
 
 const createFilmCardDescriptionTemplete = ({ comments, filmInfo }) =>{
@@ -29,26 +29,15 @@ const createFilmCardDescriptionTemplete = ({ comments, filmInfo }) =>{
     </article>`;
 };
 
-export default class FilmCardDescriptionView {
-  #element = null;
+export default class FilmCardDescriptionView extends AbstractView {
   #film = null;
 
   constructor(film) {
+    super();
     this.#film = film;
   }
 
   get template() {
     return createFilmCardDescriptionTemplete(this.#film);
-  }
-
-  get element() {
-    if (!this.#element) {
-      this.#element = createElement(this.template);
-    }
-    return this.#element;
-  }
-
-  removeElement () {
-    this.#element = null;
   }
 }
