@@ -6,4 +6,14 @@ export default class FilmShowMoreView extends AbstractView {
   get template() {
     return createFilmShowMoreTemplete();
   }
+
+  setClickHandler = (callback) => {
+    this._callback.click = callback;
+    this.element.addEventListener('click', this.#clickHandler);
+  };
+
+  #clickHandler = (evt) => {
+    evt.preventDefault();
+    this._callback.click();
+  };
 }

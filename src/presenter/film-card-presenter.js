@@ -1,7 +1,7 @@
 import FilmsView from '../view/films-view.js';
 import FilmListView from '../view/film-list-view.js';
 import FilmCardDescriptionView from '../view/film-card-descriptions -view.js';
-import { render } from '../render.js';
+import { render, remove } from '../framework/render.js';
 import FilmListConteinerView from '../view/film-lists-conteiner-view.js';
 import FilmShowMoreView from '../view/film-show-more-view.js';
 import FilmListExtraTopView from '../view/film-list-extra-top-view.js';
@@ -67,15 +67,15 @@ export default class FilmCardPresenter {
     if (this.#films.length > DEFAULT_FILM_SHOW) {
       render(this.#filmShowMore, this.#filmList.element);
 
-      this.#filmShowMore.element.addEventListener('click', this.#handlerLoadShowMoreFilms);
+      this.#filmShowMore.setClickHandler(this.#handlerButtonShowMoreFilms);
     }
 
   }
 
-  #handlerLoadShowMoreFilms = (evt) => {
-    evt.preventDefault();
+  #handlerButtonShowMoreFilms = () => {
     const films = this.#films.slice(this.#renderFilmCount, this.#renderFilmCount + DEFAULT_FILM_SHOW);
     const comments = this.#comments.slice(this.#renderFilmCount, this.#renderFilmCount + DEFAULT_FILM_SHOW);
+
     for (let i = 0; i < DEFAULT_FILM_SHOW; i += 1) {
       if (films[i] !== undefined) {
         this.#renderCardFilm(films[i], comments[i]);
@@ -85,23 +85,23 @@ export default class FilmCardPresenter {
     this.#renderFilmCount += DEFAULT_FILM_SHOW;
 
     if (this.#renderFilmCount >= this.#films.length) {
-      this.#filmShowMore.element.remove();
-      this.#filmShowMore.removeElement();
+      remove(this.#filmShowMore);
     }
 
   };
 
   #renderCardFilm (film, comment) {
     const cardFilm = new FilmCardDescriptionView(film);
-    const cardFilmElement = cardFilm.element.querySelector('a');
 
-    cardFilmElement.addEventListener('click', () => {
+    cardFilm.setCardFilmClickHandler(() => {
+      remove(this.#popupFilm);//если уже открыт Popup он будет обнулен
       this.#addPopupFilm(film, comment);
       document.addEventListener('keydown',this.#onEscKeydown);
     });
 
     render(cardFilm, this.#filmListConteiner.element);
   }
+
 
   #addPopupFilm (film, comment) {
     this.#renderPopupCardFilm(film, comment);
@@ -113,9 +113,7 @@ export default class FilmCardPresenter {
 
     this.#container.appendChild(this.#popupFilm.element);
 
-    const closePopupFilmElement = this.#popupFilm.element.querySelector('.film-details__close-btn');
-
-    closePopupFilmElement.addEventListener('click', () => {
+    this.#popupFilm.setClosePopupClickHandler (() => {
       this.#replacePopupFilm();
       document.removeEventListener('keydown', this.#onEscKeydown);
     });
@@ -123,7 +121,7 @@ export default class FilmCardPresenter {
 
   #replacePopupFilm() {
     this.#container.removeChild(this.#popupFilm.element);
-    this.#popupFilm = null;
+    remove(this.#popupFilm);
     document.body.classList.remove('hide-overflow');
   }
 

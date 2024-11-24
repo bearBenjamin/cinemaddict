@@ -1,7 +1,7 @@
 import AbstractView from '../framework/view/abstract-view.js';
-import { convertRunTime, dateYearRealeaseFilm, textTruncate } from '../util.js';
+import { convertRunTime, dateYearRealeaseFilm, textTruncate } from '../utils/task.js';
 
-const createFilmCardDescriptionTemplete = ({ comments, filmInfo }) =>{
+const createFilmCardDescriptionTemplete = ({ comments, filmInfo }) => {
   const { title, totalRating, release, runtime, genre, poster, description, } = filmInfo;
   const date = release.date === null ? '' : dateYearRealeaseFilm(release.date);
   const timeMovie = convertRunTime(runtime);
@@ -40,4 +40,14 @@ export default class FilmCardDescriptionView extends AbstractView {
   get template() {
     return createFilmCardDescriptionTemplete(this.#film);
   }
+
+  setCardFilmClickHandler = (callback) => {
+    this._callback.click = callback;
+    this.element.querySelector('a').addEventListener('click', this.#clickHandler);
+  };
+
+  #clickHandler = (evt) => {
+    evt.preventDefault();
+    this._callback.click(evt);
+  };
 }

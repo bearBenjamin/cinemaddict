@@ -1,7 +1,9 @@
 import AbstractView from '../framework/view/abstract-view.js';
-import { convertRunTime, dateComment, fullDateRealeaseFilm } from '../util.js';
+import { convertRunTime, dateComment, fullDateRealeaseFilm } from '../utils/task.js';
 
-const createFilmPopupTemplete = ({ filmInfo }, comments) => {
+const createFilmPopupTemplete = (film, comments) => {
+  const { filmInfo } = film;
+
   const {
     title, poster, ageRating, alternativetitle, totalRating, director, writers,
     actors, release, runtime, genre, description
@@ -9,24 +11,28 @@ const createFilmPopupTemplete = ({ filmInfo }, comments) => {
   const dateReales = fullDateRealeaseFilm(release.date);
   const timeMovie = convertRunTime(runtime);
 
-  const containerGenres = document.createElement('td');
-  containerGenres.className = 'film-details__cell';
+  const genres = [];
 
   genre.forEach((element) => {
-    const itemContainer = document.createElement('template');
-    itemContainer.innerHTML = `<span class="film-details__genre">${element}</span>`;
-    containerGenres.append(itemContainer.content);
+    const item = `<span class="film-details__genre">${element}</span>`;
+    genres.push(item);
   });
 
-  const list = document.createElement('ul');
-  list.className = 'film-details__comments-list';
+  const genreInfoConteiner = `<td class="film-details__cell">${genres.join('')}</td>`;
+  const genreTerm = genre.length === 1 ? 'Genre' : 'Genres';
+
+  const genreInfo = `<tr class="film-details__row">
+              <td class="film-details__term">${genreTerm}</td>
+              ${genreInfoConteiner}
+            </tr>`;
+
+  const itemsComment = [];
 
   comments.forEach((item) => {
     const { author, comment, date, emotion } = item;
     const dateUserCom = dateComment(date);
-    const itemList = document.createElement('template');
 
-    itemList.innerHTML = `<li class="film-details__comment">
+    const itemList = `<li class="film-details__comment">
     <span class="film-details__comment-emoji">
     <img src="../images/emoji/${emotion}.png" width="55" height="55" alt="emoji-smile">
     </span>
@@ -40,8 +46,10 @@ const createFilmPopupTemplete = ({ filmInfo }, comments) => {
     </div>
     </li>`;
 
-    list.append(itemList.content);
+    itemsComment.push(itemList);
   });
+
+  const listComments = `<ul class="film-details__comments-list">${itemsComment.join('')}</ul>`;
 
   return `<section class="film-details">
     <form class="film-details__inner" action="" method="get">
@@ -94,8 +102,7 @@ const createFilmPopupTemplete = ({ filmInfo }, comments) => {
     <td class="film-details__cell">${release.releaseCountry}</td>
     </tr>
     <tr class="film-details__row">
-    <td class="film-details__term">Genres</td>
-    ${containerGenres.outerHTML}
+    ${genreInfo}
     </tr>
     </table>
 
@@ -114,7 +121,7 @@ const createFilmPopupTemplete = ({ filmInfo }, comments) => {
     <section class="film-details__comments-wrap">
     <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${comments.length}</span></h3>
   
-    ${list.outerHTML}
+    ${listComments}
 
     <div class="film-details__new-comment">
     <div class="film-details__add-emoji-label"></div>
@@ -164,4 +171,14 @@ export default class FilmPopupView extends AbstractView {
   get template() {
     return createFilmPopupTemplete(this.#film, this.#comments);
   }
+
+  setClosePopupClickHandler = (callback) => {
+    this._callback.click = callback;
+    this.element.querySelector('.film-details__close-btn').addEventListener('click', this.#clickHandler);
+  };
+
+  #clickHandler = (evt) => {
+    evt.preventDefault();
+    this._callback.click();
+  };
 }

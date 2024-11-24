@@ -1,4 +1,4 @@
-import { getRandomInteger, getRandomItemArray, getRandomNumFloat } from '../util.js';
+import { getRandomInteger, getRandomItemArray, getRandomNumFloat } from '../utils/common.js';
 
 const ID = ['0', '1', '2', '3', '4', '5'];
 
@@ -50,8 +50,18 @@ const getIdComments = () => {
       idComments.push(getRandomInteger(1, 100));
     }
   }
-
   return idComments;
+};
+
+const getDatetWatched = () => {
+  const year = getRandomInteger(2020, 2023);
+  const month = getRandomInteger(0, 11);
+  const date = getRandomInteger(0, 30);
+  const hour = getRandomInteger(0, 24);
+  const minute = getRandomInteger(0, 59);
+  const second = getRandomInteger(0, 59);
+  const dateWatched = new Date(year, month, date, hour, minute, second);
+  return dateWatched;
 };
 
 export const generateTask = () => ({
@@ -81,10 +91,10 @@ export const generateTask = () => ({
     description: getRandomItemArray(DESCRIPTION).replace(/(\r\n|\n|\r)/gm, '')
   },
   userDetails: {
-    watchlist: false,
-    alreadyWatched: true,
-    watchingDate: '2019-04-12T16:12:32.554Z',//null
-    favorite: false
+    watchlist: Boolean(getRandomInteger()),
+    alreadyWatched: Boolean(getRandomInteger()),
+    watchingDate: (getRandomInteger()) ? getDatetWatched() : null,
+    favorite: Boolean(getRandomInteger())
   }
 });
 
