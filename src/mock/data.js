@@ -1,6 +1,6 @@
 import { getRandomInteger, getRandomItemArray, getRandomNumFloat } from '../utils/common.js';
-
-const ID = ['0', '1', '2', '3', '4', '5'];
+import { nanoid }  from 'nanoid';
+//const ID = ['0', '1', '2', '3', '4', '5'];
 
 const TITLE = [
   'A Little Pony Without The Carpet',
@@ -64,8 +64,8 @@ const getDatetWatched = () => {
   return dateWatched;
 };
 
-export const generateTask = () => ({
-  id: getRandomItemArray(ID),
+export const generateFilm = () => ({
+  id: nanoid()/*getRandomItemArray(ID)*/,
   comments: getIdComments(),
   filmInfo: {
     title: getRandomItemArray(TITLE),
@@ -91,10 +91,10 @@ export const generateTask = () => ({
     description: getRandomItemArray(DESCRIPTION).replace(/(\r\n|\n|\r)/gm, '')
   },
   userDetails: {
-    watchlist: Boolean(getRandomInteger()),
-    alreadyWatched: Boolean(getRandomInteger()),
+    watchlist: false,
+    alreadyWatched: false,
     watchingDate: (getRandomInteger()) ? getDatetWatched() : null,
-    favorite: Boolean(getRandomInteger())
+    favorite: false
   }
 });
 
@@ -112,12 +112,15 @@ const COMMENT = [
 
 const EMOTION = ['smile', 'sleeping', 'puke', 'angry'];
 
-export const generateComment = () => ({
-  id: getRandomInteger(1, 100),
-  author: getRandomItemArray(AUTHOR),
-  comment: getRandomItemArray(COMMENT),
-  date: '2019-05-11T16:12:32.554Z', //null
-  emotion: getRandomItemArray(EMOTION)
-});
-
+export const generateComment = (item) => {
+  const comment = {
+    id: '',
+    author: getRandomItemArray(AUTHOR),
+    comment: getRandomItemArray(COMMENT),
+    date: '2019-05-11T16:12:32.554Z', //null
+    emotion: getRandomItemArray(EMOTION)
+  };
+  comment.id = item;
+  return comment;
+};
 
