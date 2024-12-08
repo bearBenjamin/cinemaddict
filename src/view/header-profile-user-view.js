@@ -11,13 +11,11 @@ const createProfileUserTemplate = (films) => {
 };
 
 export default class ProfileUserView extends AbstractView {
-  #taskModel = null;
   #films = null;
 
-  constructor (taskModel) {
+  constructor (taskFilms) {
     super();
-    this.#taskModel = taskModel;
-    this.#films = [...this.#taskModel.films];
+    this.#films = [...taskFilms.get()];
   }
 
   get template() {

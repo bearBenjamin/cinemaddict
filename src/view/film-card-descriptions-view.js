@@ -57,33 +57,33 @@ export default class FilmCardDescriptionView extends AbstractView {
     this._callback.click();
   };
 
-  setCardFilmBtnAddClickHandler = (callback) => {
-    this._callback.clickBtnAdd = callback;
-    this.element.querySelector('.film-card__controls-item--add-to-watchlist').addEventListener('click', this.#clickBtnAddHandler);
+  setBtnAddCardFilmClickHandler = (callback) => {
+    this._callback.BtnAddClick = callback;
+    this.element.querySelector('.film-card__controls-item--add-to-watchlist').addEventListener('click', this.#BtnAddClickHandler);
   };
 
-  #clickBtnAddHandler = (evt) => {
+  #BtnAddClickHandler = (evt) => {
     evt.preventDefault();
-    this._callback.clickBtnAdd();
+    this._callback.BtnAddClick();
   };
 
-  setCardFilmBtnWatchedClickHandler = (callback) => {
-    this._callback.clickBtnWatched= callback;
-    this.element.querySelector('.film-card__controls-item--mark-as-watched').addEventListener('click', this.#clickBtnWatchedHandler);
+  setBtnWatchedCardFilmClickHandler = (callback) => {
+    this._callback.BtnWatchedClick= callback;
+    this.element.querySelector('.film-card__controls-item--mark-as-watched').addEventListener('click', this.#BtnWatchedClickHandler);
   };
 
-  #clickBtnWatchedHandler = (evt) => {
+  #BtnWatchedClickHandler = (evt) => {
     evt.preventDefault();
-    this._callback.clickBtnWatched();
+    this._callback.BtnWatchedClick();
   };
 
-  setCardFilmBthFavoriteClickHandler = (callback) => {
-    this._callback.clickBtnFavorite = callback;
-    this.element.querySelector('.film-card__controls-item--favorite').addEventListener('click', this.#clickBtnFavoriteHandler);
+  setBthFavoriteCardFilmClickHandler = (callback) => {
+    this._callback.BtnFavoriteClick = callback;
+    this.element.querySelector('.film-card__controls-item--favorite').addEventListener('click', this.#BtnFavoriteClickHandler);
   };
 
-  #clickBtnFavoriteHandler = (evt) => {
+  #BtnFavoriteClickHandler = (evt) => {
     evt.preventDefault();
-    this._callback.clickBtnFavorite();
+    this._callback.BtnFavoriteClick();
   };
 }

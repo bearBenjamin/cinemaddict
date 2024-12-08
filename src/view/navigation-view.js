@@ -16,12 +16,10 @@ const createNavigationTemplete = (films) => {
 
 export default class NavigationView extends AbstractView {
   #films = null;
-  #taskModel = null;
 
-  constructor (taskModel) {
+  constructor (taskFilms) {
     super();
-    this.#taskModel = taskModel;
-    this.#films = [...this.#taskModel.films];
+    this.#films = [...taskFilms.get()];
   }
 
   get template() {

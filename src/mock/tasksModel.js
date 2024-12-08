@@ -1,18 +1,13 @@
-import { generateFilm, generateComment } from './data.js';
+import { generateFilms, generateComments } from './data.js';
 
 export default class TaskModel {
-  #films = Array.from({length: 23}, generateFilm);
+  #films = generateFilms();
 
   get films() {
     return this.#films;
   }
 
-  #comments = this.#films.map((film) => {
-    const lengthComments = film.comments.length;
-    const idComment = film.id;
-    const result = Array.from({length: lengthComments}, () => generateComment(idComment));
-    return result;
-  });
+  #comments = generateComments(this.#films);
 
   get comments() {
     return this.#comments;

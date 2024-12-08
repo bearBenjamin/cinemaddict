@@ -23,7 +23,7 @@ export default class FilmPopupPresenter {
 
     const prevPopup = this.#popupFilm;
 
-    this.#popupFilm = new FilmPopupView(film, comment);
+    this.#popupFilm = new FilmPopupView(this.#film, this.#comments);
 
     this.#mainConteiner.appendChild(this.#popupFilm.element);
 

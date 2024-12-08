@@ -64,8 +64,8 @@ const getDatetWatched = () => {
   return dateWatched;
 };
 
-export const generateFilm = () => ({
-  id: nanoid()/*getRandomItemArray(ID)*/,
+const generateFilm = () => ({
+  id: nanoid(),
   comments: getIdComments(),
   filmInfo: {
     title: getRandomItemArray(TITLE),
@@ -98,6 +98,11 @@ export const generateFilm = () => ({
   }
 });
 
+export const generateFilms = () => {
+  const films = Array.from({length: 23}, generateFilm);
+  return films;
+};
+
 const AUTHOR = ['Ilya O\'Reily', 'Andrye Petrov', 'Irina Solovei', 'Angry Berd', 'Pruff', 'Zlo', 'Dobro', '555', 'Krasiva'];
 
 const COMMENT = [
@@ -112,7 +117,7 @@ const COMMENT = [
 
 const EMOTION = ['smile', 'sleeping', 'puke', 'angry'];
 
-export const generateComment = (item) => {
+const generateComment = (item) => {
   const comment = {
     id: '',
     author: getRandomItemArray(AUTHOR),
@@ -123,4 +128,15 @@ export const generateComment = (item) => {
   comment.id = item;
   return comment;
 };
+
+export const generateComments = (films) => {
+  const comments = films.map((film) => {
+    const lengthComments = film.comments.length;
+    const idComment = film.id;
+    const result = Array.from({length: lengthComments}, () => generateComment(idComment));
+    return result;
+  });
+  return comments;
+};
+
 

@@ -1,5 +1,11 @@
-import { generateComment } from '../mock/data.js';
-
 export default class CommentsModel {
-    //#comments =
+  #comments = null;
+
+  constructor (comments) {
+    this.#comments = comments;
+  }
+
+  get () {
+    return this.#comments;
+  }
 }

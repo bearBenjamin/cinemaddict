@@ -1,4 +1,4 @@
-import FilmCardDescriptionView from '../view/film-card-descriptions -view';
+import FilmCardDescriptionView from '../view/film-card-descriptions-view';
 import { render, remove, replace } from '../framework/render';
 
 export default class CardFilmPresenter {
@@ -20,14 +20,14 @@ export default class CardFilmPresenter {
     this.#film = film;
     const prevCardFilm = this.#cardFilm;
 
-    this.#cardFilm = new FilmCardDescriptionView(film);
-    //console.log('this.#film: ', this.#film);
+    this.#cardFilm = new FilmCardDescriptionView(this.#film);
+
     this.#cardFilm.setCardFilmClickHandler(() => {
       this.#addPopupFilm(this.#film);
       document.addEventListener('keydown',this.#onEscKeydown);
     });
 
-    this.#cardFilm.setCardFilmBtnAddClickHandler(() => {
+    this.#cardFilm.setBtnAddCardFilmClickHandler(() => {
       this.#changeDate({
         ...this.#film,
         userDetails: {
@@ -37,7 +37,7 @@ export default class CardFilmPresenter {
       });
     });
 
-    this.#cardFilm.setCardFilmBtnWatchedClickHandler(() => {
+    this.#cardFilm.setBtnWatchedCardFilmClickHandler(() => {
       this.#changeDate({
         ...this.#film,
         userDetails: {
@@ -47,7 +47,7 @@ export default class CardFilmPresenter {
       });
     });
 
-    this.#cardFilm.setCardFilmBthFavoriteClickHandler(() => {
+    this.#cardFilm.setBthFavoriteCardFilmClickHandler(() => {
       this.#changeDate({
         ...this.#film,
         userDetails: {
