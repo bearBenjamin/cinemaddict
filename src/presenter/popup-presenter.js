@@ -9,6 +9,7 @@ export default class FilmPopupPresenter {
   #changeData = null;
   #replacePopupFilm = null;
   #onEscKeydown = null;
+  #cord = 0;
 
   constructor (mainConteiner, changeData, replacePopupFilm, onEscKeydown) {
     this.#mainConteiner = mainConteiner;
@@ -23,7 +24,7 @@ export default class FilmPopupPresenter {
 
     const prevPopup = this.#popupFilm;
 
-    this.#popupFilm = new FilmPopupView(this.#film, this.#comments);
+    this.#popupFilm = new FilmPopupView(this.#film, this.#comments, this.#cord);
 
     this.#mainConteiner.appendChild(this.#popupFilm.element);
 
@@ -31,6 +32,7 @@ export default class FilmPopupPresenter {
       this.#replacePopupFilm();
       document.removeEventListener('keydown', this.#onEscKeydown);
     });
+
 
     this.#popupFilm.setBtnWatchlistPopupClickHandler (() => {
       this.#changeData({
@@ -68,8 +70,6 @@ export default class FilmPopupPresenter {
     }
 
     replace (this.#popupFilm, prevPopup);
-
-    remove(prevPopup);
   }
 
   destroy = () => {

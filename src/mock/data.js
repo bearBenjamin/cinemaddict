@@ -1,6 +1,6 @@
 import { getRandomInteger, getRandomItemArray, getRandomNumFloat } from '../utils/common.js';
+import { getDate } from '../utils/common.js';
 import { nanoid }  from 'nanoid';
-//const ID = ['0', '1', '2', '3', '4', '5'];
 
 const TITLE = [
   'A Little Pony Without The Carpet',
@@ -81,7 +81,7 @@ const generateFilm = () => ({
       ACTORS.join(', ')
     ],
     release: {
-      date: '2019-05-11T00:00:00.000Z',
+      date: getDate()/*'2019-05-11T00:00:00.000Z'*/,
       releaseCountry: getRandomItemArray(RELEASE_COUNTRY)
     },
     runtime: getRandomInteger(0, 300),

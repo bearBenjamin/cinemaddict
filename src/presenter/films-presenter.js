@@ -16,21 +16,21 @@ import FilmPopupPresenter from './popup-presenter.js';
 
 import { render, remove } from '../framework/render.js';
 import { updateItem } from '../utils/common.js';
-
-const FILM_EXTRA_COUNT = 2;
-const DEFAULT_FILM_SHOW = 5;
+import { toggleSortFilms, sortFilmsDate, sortFilmsRating } from '../utils/sort.js';
+import { DEFAULT_FILM_EXTRA, DEFAULT_FILM_SHOW } from '../utils/const.js';
 
 export default class FilmCardPresenter {
   #films = null;
   #comments = null;
   #сontainer = null;
-  //#taskModel = null;
-  #taskFilms = null;
-  #taskComments = null;
+  #modelFilms = null;
+  #modelComments = null;
   #showFilms = null;
   #selectedFilm = null;
+  #currentSort = null;
 
-  #filmsSort = new FilterListView();
+  #filmSort = null;
+  #sortFilmListDefault = null;
   #film = new FilmsView();
   #filmList = new FilmListView();
   #filmListConteiner = new FilmListConteinerView();
@@ -47,19 +47,17 @@ export default class FilmCardPresenter {
   #popupFilmPresenter = null;
 
   #renderFilmCount = DEFAULT_FILM_SHOW;
+  #renderExtraFilmCount = DEFAULT_FILM_EXTRA;
 
-  constructor(container, taskFilms, taskComments) {
+  constructor(container, modelFilms, modelComments) {
     this.#сontainer = container;
-    //this.#taskModel = taskModel;
-    this.#taskFilms = taskFilms;
-    this.#taskComments = taskComments;
+    this.#modelFilms = modelFilms;
+    this.#modelComments = modelComments;
   }
 
   init = () => {
-    // this.#films = [...this.#taskModel.films];
-    // this.#comments = [...this.#taskModel.comments];
-    this.#films = [...this.#taskFilms.get()];
-    this.#comments = [...this.#taskComments.get()];
+    this.#films = [...this.#modelFilms.get()];
+    this.#comments = [...this.#modelComments.get()];
 
     this.#renderSort();
     this.#renderFilm();
@@ -137,7 +135,7 @@ export default class FilmCardPresenter {
     });
     this.#cardFilmPresenter.clear();
     this.#renderFilmCount = DEFAULT_FILM_SHOW;
-    remove(this.#filmShowMoreButton); //не понятно зачем удалять кнопку показать больше;
+    remove(this.#filmShowMoreButton);
   }
 
   #addPopupFilm = (film) => {
@@ -182,8 +180,45 @@ export default class FilmCardPresenter {
   };
 
   #renderSort () {
-    render(this.#filmsSort, this.#сontainer);
+    if (this.#films.length === 0) {
+      return;
+    }
+
+    this.#filmSort = new FilterListView();
+
+    this.#filmSort.setBtnSortClickHandler(() => {
+      this.#sortFilmListDefault = [...this.#modelFilms.get()];
+
+      this.#currentSort = this.#filmSort.get();
+
+      // if (sortFilmButtons[this.#currentSort] === 'on') {
+      //   return;
+      // }
+
+      switch(this.#currentSort) {
+        case 'Sort by default' :
+          toggleSortFilms(this.#currentSort);
+          this.#films = this.#sortFilmListDefault;
+          break;
+
+        case 'Sort by date' :
+          toggleSortFilms(this.#currentSort);
+          this.#films = sortFilmsDate(this.#films);
+          break;
+
+        case 'Sort by rating' :
+          toggleSortFilms(this.#currentSort);
+          this.#films = sortFilmsRating(this.#films);
+          break;
+      }
+
+      this.#clearFilmListConteiner();
+      this.#renderFilms();
+    });
+
+    render(this.#filmSort, this.#сontainer);
   }
+
 
   #renderFilm () {
     render(this.#film, this.#сontainer);
@@ -216,7 +251,7 @@ export default class FilmCardPresenter {
     this.#renderFilmListExtraTop();
     this.#renderFilmListExtraTopConteiner();
 
-    for (let i = 0; i < FILM_EXTRA_COUNT; i += 1) {
+    for (let i = 0; i < this.#renderExtraFilmCount; i += 1) {
       render(new FilmCardDescriptionView(this.#films[i]), this.#filmListExtraTopConteiner.element);
     }
   }
@@ -230,7 +265,7 @@ export default class FilmCardPresenter {
     this.#renderFilmListExtraMessage();
     this.#renderFilmListExtraMessageConteiner();
 
-    for (let i = 0; i < FILM_EXTRA_COUNT; i += 1) {
+    for (let i = 0; i < this.#renderExtraFilmCount; i += 1) {
       render(new FilmCardDescriptionView(this.#films[i]), this.#filmListExtraMessageConteiner.element);
     }
   }
@@ -250,4 +285,5 @@ export default class FilmCardPresenter {
   #renderFilmListExtraMessageConteiner () {
     render(this.#filmListExtraMessageConteiner, this.#filmListExtraMessage.element);
   }
+
 }

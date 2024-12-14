@@ -1,5 +1,5 @@
 import AbstractView from '../framework/view/abstract-view.js';
-import { convertRunTime, dateComment, fullDateRealeaseFilm } from '../utils/task.js';
+import { convertRunTime, dateComment, fullDateRealeaseFilm } from '../utils/common.js';
 
 const createFilmPopupTemplete = (film, comments) => {
   const { filmInfo } = film;
@@ -231,5 +231,4 @@ export default class FilmPopupView extends AbstractView {
     evt.preventDefault();
     this._callback.btnFavoriteClick();
   };
-
 }

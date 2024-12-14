@@ -1,5 +1,5 @@
 import AbstractView from '../framework/view/abstract-view';
-import { getStatusUser } from '../mock/filter';
+import { getStatusUser } from '../utils/filter.js';
 
 const createProfileUserTemplate = (films) => {
   const status = getStatusUser(films);

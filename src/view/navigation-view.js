@@ -1,5 +1,5 @@
 import AbstractView from '../framework/view/abstract-view';
-import { getNumberFavorite, getNumberHistory, getNumberWatchlist } from '../mock/filter';
+import { getNumberFavorite, getNumberHistory, getNumberWatchlist } from '../utils/filter.js';
 
 const createNavigationTemplete = (films) => {
   const quantityFilmsWatchlist = getNumberWatchlist(films);

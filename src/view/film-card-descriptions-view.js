@@ -1,5 +1,5 @@
 import AbstractView from '../framework/view/abstract-view.js';
-import { convertRunTime, dateYearRealeaseFilm, textTruncate } from '../utils/task.js';
+import { convertRunTime, dateYearRealeaseFilm, textTruncate } from '../utils/common.js';
 
 const createFilmCardDescriptionTemplete = ({ comments, filmInfo, userDetails }) => {
   const { watchlist, alreadyWatched, favorite } = userDetails;
@@ -49,7 +49,9 @@ export default class FilmCardDescriptionView extends AbstractView {
 
   setCardFilmClickHandler = (callback) => {
     this._callback.click = callback;
-    this.element.querySelector('a').addEventListener('click', this.#clickHandler);
+    this.element
+      .querySelector('a')
+      .addEventListener('click', this.#clickHandler);
   };
 
   #clickHandler = (evt) => {
@@ -59,7 +61,9 @@ export default class FilmCardDescriptionView extends AbstractView {
 
   setBtnAddCardFilmClickHandler = (callback) => {
     this._callback.BtnAddClick = callback;
-    this.element.querySelector('.film-card__controls-item--add-to-watchlist').addEventListener('click', this.#BtnAddClickHandler);
+    this.element
+      .querySelector('.film-card__controls-item--add-to-watchlist')
+      .addEventListener('click', this.#BtnAddClickHandler);
   };
 
   #BtnAddClickHandler = (evt) => {
@@ -69,7 +73,9 @@ export default class FilmCardDescriptionView extends AbstractView {
 
   setBtnWatchedCardFilmClickHandler = (callback) => {
     this._callback.BtnWatchedClick= callback;
-    this.element.querySelector('.film-card__controls-item--mark-as-watched').addEventListener('click', this.#BtnWatchedClickHandler);
+    this.element
+      .querySelector('.film-card__controls-item--mark-as-watched')
+      .addEventListener('click', this.#BtnWatchedClickHandler);
   };
 
   #BtnWatchedClickHandler = (evt) => {
@@ -79,7 +85,9 @@ export default class FilmCardDescriptionView extends AbstractView {
 
   setBthFavoriteCardFilmClickHandler = (callback) => {
     this._callback.BtnFavoriteClick = callback;
-    this.element.querySelector('.film-card__controls-item--favorite').addEventListener('click', this.#BtnFavoriteClickHandler);
+    this.element
+      .querySelector('.film-card__controls-item--favorite')
+      .addEventListener('click', this.#BtnFavoriteClickHandler);
   };
 
   #BtnFavoriteClickHandler = (evt) => {

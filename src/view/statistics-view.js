@@ -1,5 +1,5 @@
 import AbstractView from '../framework/view/abstract-view';
-import { getNumberFilmsAll } from '../mock/filter';
+import { getNumberFilmsAll } from '../utils/filter';
 
 const createStatisticsTemplate = (films) => {
   const allFilms = getNumberFilmsAll(films);
