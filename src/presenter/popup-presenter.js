@@ -9,7 +9,6 @@ export default class FilmPopupPresenter {
   #changeData = null;
   #replacePopupFilm = null;
   #onEscKeydown = null;
-  #cord = 0;
 
   constructor (mainConteiner, changeData, replacePopupFilm, onEscKeydown) {
     this.#mainConteiner = mainConteiner;
@@ -24,7 +23,7 @@ export default class FilmPopupPresenter {
 
     const prevPopup = this.#popupFilm;
 
-    this.#popupFilm = new FilmPopupView(this.#film, this.#comments, this.#cord);
+    this.#popupFilm = new FilmPopupView(this.#film, this.#comments);
 
     this.#mainConteiner.appendChild(this.#popupFilm.element);
 

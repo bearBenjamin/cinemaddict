@@ -6,9 +6,11 @@ const createFilmPopupTemplete = (film, comments) => {
   const { userDetails } = film;
 
   const {
-    title, poster, ageRating, alternativetitle, totalRating, director, writers,
-    actors, release, runtime, genre, description
+    title, poster, ageRating, alternativetitle, totalRating,
+    director, writers, actors, release, runtime,
+    genre, description
   } = filmInfo;
+
   const dateReales = fullDateRealeaseFilm(release.date);
   const timeMovie = convertRunTime(runtime);
 

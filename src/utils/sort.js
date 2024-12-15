@@ -55,11 +55,33 @@ const sortFilmsRating = (films) => {
   return [...sortFilmsRating(greater), films[pivotIndex], ...sortFilmsRating(less)];
 };
 
-// const sortFilmButtons = {
-//   'Sort by default': 'off',
-//   'Sort by date': 'off',
-//   'Sort by rating': 'off',
-// };
+const sortFilmsComments = (films) => {
+
+  if (films.length <= 1) {
+    return films;
+  }
+
+  const pivotIndex = Math.floor(films.length / 2);
+  const pivotItem = films[pivotIndex].comments.length;
+
+  const less = [];
+  const greater = [];
+
+  for (let i = 0; i < films.length; i += 1) {
+
+    if (i === pivotIndex) {
+      continue;
+    }
+    if (films[i].comments.length < pivotItem) {
+      less.push(films[i]);
+    } else {
+      greater.push(films[i]);
+    }
+
+  }
+
+  return [...sortFilmsComments(greater), films[pivotIndex], ...sortFilmsComments(less)];
+};
 
 const toggleSortFilms = (nameSort) => {
   const sortFilmButtons = {
@@ -93,4 +115,4 @@ const toggleSortFilms = (nameSort) => {
   }
 };
 
-export { toggleSortFilms, sortFilmsDate, sortFilmsRating };
+export { toggleSortFilms, sortFilmsDate, sortFilmsRating, sortFilmsComments };

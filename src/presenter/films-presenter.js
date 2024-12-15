@@ -6,18 +6,20 @@ import FilmShowMoreView from '../view/film-show-more-view.js';
 import FilmListEmptyView from '../view/film-list-empty-view.js';
 
 import FilterListView from '../view/filter-list-view.js';
-import FilmCardDescriptionView from '../view/film-card-descriptions-view.js';
 
 import FilmListExtraTopView from '../view/film-list-extra-top-view.js';
 import FilmListExtraMessageView from '../view/film-list-extra-message-view.js';
 
 import CardFilmPresenter from './film-presenter.js';
+import TopCardFilmPresenter from './top-film-presenter.js';
 import FilmPopupPresenter from './popup-presenter.js';
+import MostCommentedPresenter from './most-comented-film-presenter.js';
 
 import { render, remove } from '../framework/render.js';
 import { updateItem } from '../utils/common.js';
-import { toggleSortFilms, sortFilmsDate, sortFilmsRating } from '../utils/sort.js';
+import { toggleSortFilms, sortFilmsDate, sortFilmsRating, sortFilmsComments } from '../utils/sort.js';
 import { DEFAULT_FILM_EXTRA, DEFAULT_FILM_SHOW } from '../utils/const.js';
+
 
 export default class FilmCardPresenter {
   #films = null;
@@ -27,10 +29,11 @@ export default class FilmCardPresenter {
   #modelComments = null;
   #showFilms = null;
   #selectedFilm = null;
-  #currentSort = null;
 
+  #currentSort = null;
   #filmSort = null;
   #sortFilmListDefault = null;
+
   #film = new FilmsView();
   #filmList = new FilmListView();
   #filmListConteiner = new FilmListConteinerView();
@@ -60,6 +63,7 @@ export default class FilmCardPresenter {
     this.#comments = [...this.#modelComments.get()];
 
     this.#renderSort();
+
     this.#renderFilm();
     this.#renderFilmList();
     this.#renderFilmListConteiner();
@@ -125,6 +129,7 @@ export default class FilmCardPresenter {
       this.#handlerFilmChange,
       this.#addPopupFilm,
       this.#onEscKeydown);
+
     cardFilm.init(film, comment);
     this.#cardFilmPresenter.set(film.id, cardFilm);
   }
@@ -176,6 +181,7 @@ export default class FilmCardPresenter {
     if  (evt.key === 'Escape' || evt.key === 'Esc') {
       evt.preventDefault();
       this.#replacePopupFilm();
+      document.removeEventListener('keydown', this.#onEscKeydown);
     }
   };
 
@@ -190,10 +196,6 @@ export default class FilmCardPresenter {
       this.#sortFilmListDefault = [...this.#modelFilms.get()];
 
       this.#currentSort = this.#filmSort.get();
-
-      // if (sortFilmButtons[this.#currentSort] === 'on') {
-      //   return;
-      // }
 
       switch(this.#currentSort) {
         case 'Sort by default' :
@@ -251,9 +253,22 @@ export default class FilmCardPresenter {
     this.#renderFilmListExtraTop();
     this.#renderFilmListExtraTopConteiner();
 
+    this.#films = sortFilmsRating(this.#films);
+
     for (let i = 0; i < this.#renderExtraFilmCount; i += 1) {
-      render(new FilmCardDescriptionView(this.#films[i]), this.#filmListExtraTopConteiner.element);
+      this.#renderTopCardFilm(this.#films[i]);
     }
+  }
+
+  #renderTopCardFilm (film) {
+    const topCardFilm = new TopCardFilmPresenter(
+      this.#filmListExtraTopConteiner.element,
+      this.#handlerFilmChange,
+      this.#addPopupFilm,
+      this.#onEscKeydown);
+
+    topCardFilm.init(film);
+    this.#cardFilmPresenter.set(film.id, topCardFilm);
   }
 
   #renderMostCommentedFilms () {
@@ -265,9 +280,22 @@ export default class FilmCardPresenter {
     this.#renderFilmListExtraMessage();
     this.#renderFilmListExtraMessageConteiner();
 
+    this.#films = sortFilmsComments(this.#films);
+
     for (let i = 0; i < this.#renderExtraFilmCount; i += 1) {
-      render(new FilmCardDescriptionView(this.#films[i]), this.#filmListExtraMessageConteiner.element);
+      this.#renderMostCommentedCardFilm(this.#films[i]);
     }
+  }
+
+  #renderMostCommentedCardFilm (film) {
+    const mostCommentedCardFilm = new MostCommentedPresenter(
+      this.#filmListExtraMessageConteiner.element,
+      this.#handlerFilmChange,
+      this.#addPopupFilm,
+      this.#onEscKeydown);
+
+    mostCommentedCardFilm.init(film);
+    this.#cardFilmPresenter.set(film.id, mostCommentedCardFilm);
   }
 
   #renderFilmListExtraTop () {

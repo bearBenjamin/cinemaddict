@@ -1,4 +1,3 @@
-//import TaskModel from './mock/tasksModel.js';
 import ProfileUserView from './view/header-profile-user-view.js';
 import StatisticsView from './view/statistics-view.js';
 import NavigationView from './view/navigation-view.js';
@@ -15,7 +14,6 @@ const siteMainElement = document.querySelector('.main');
 const siteFooterElement = document.querySelector('.footer');
 const siteFooterStatistics = siteFooterElement.querySelector('.footer__statistics');
 
-//const taskModel = new TaskModel();
 const modelFilms = new FilmsModel();
 const comments = generateComments(modelFilms.get());
 const modelComments = new CommentsModel(comments);

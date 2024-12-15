@@ -3,6 +3,7 @@ import { convertRunTime, dateYearRealeaseFilm, textTruncate } from '../utils/com
 
 const createFilmCardDescriptionTemplete = ({ comments, filmInfo, userDetails }) => {
   const { watchlist, alreadyWatched, favorite } = userDetails;
+
   const userDetailsTemplate = `
   <div class="film-card__controls">
   <button class="film-card__controls-item film-card__controls-item--add-to-watchlist ${watchlist ? 'film-card__controls-item--active' : 'film-card__controls-item'}" type="button">Add to watchlist</button>
@@ -11,10 +12,12 @@ const createFilmCardDescriptionTemplete = ({ comments, filmInfo, userDetails }) 
   </div>`;
 
   const { title, totalRating, release, runtime, genre, poster, description, } = filmInfo;
+
   const date = release.date === null ? '' : dateYearRealeaseFilm(release.date);
   const timeMovie = convertRunTime(runtime);
   const truncatedDescription = textTruncate(description);
   const numberComment = comments.length;
+
   const filmInfoTemplate = `
   <a class="film-card__link">
   <h3 class="film-card__title">${title}</h3>
