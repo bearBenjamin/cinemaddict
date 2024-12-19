@@ -6,7 +6,7 @@ const createFilterListTemplate = () => `<ul class="sort">
   <li><a href="#" class="sort__button">Sort by rating</a></li>
   </ul>`;
 
-export default class FilterListView extends AbstractView {
+export default class SortListView extends AbstractView {
   #buttonSort = null;
 
   get template() {

@@ -55,7 +55,7 @@ export default class MostCommentedPresenter {
         ...film,
         userDetails: {
           ...film.userDetails,
-          favorite: film.userDetails.favorite
+          favorite: !film.userDetails.favorite
         }
       });
     });

@@ -83,12 +83,13 @@ const sortFilmsComments = (films) => {
   return [...sortFilmsComments(greater), films[pivotIndex], ...sortFilmsComments(less)];
 };
 
+const sortFilmButtons = {
+  'Sort by default': 'off',
+  'Sort by date': 'off',
+  'Sort by rating': 'off',
+};
+
 const toggleSortFilms = (nameSort) => {
-  const sortFilmButtons = {
-    'Sort by default': 'off',
-    'Sort by date': 'off',
-    'Sort by rating': 'off',
-  };
 
   if (sortFilmButtons[nameSort] === 'on') {
     return;
